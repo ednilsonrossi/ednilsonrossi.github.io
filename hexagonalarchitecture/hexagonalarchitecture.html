@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pattern Ports and Adapters</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="d-flex flex-column vh-100">
+  <!-- Título fixo -->
+  <header class="navbar navbar-dark bg-dark flex-shrink-0">
+    <div class="container-fluid">
+      <span class="navbar-brand mb-0 h1">Pattern Ports and Adapters (Arquitetura Hexagonal)</span>
+    </div>
+  </header>
+
+  <div class="d-flex flex-grow-1 overflow-hidden">
+    <!-- Sidebar fixa -->
+    <nav class="bg-dark text-white p-3 flex-shrink-0" style="width: 200px;">
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <a class="nav-link text-white" href="#introducao">Introdução</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="#conceitos">Conceitos</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="#exemplos">Exemplos</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="#referencias">Referências</a>
+        </li>
+        <li class="nav-item">
+          <a class="btn btn-outline-light mt-3 w-100" href="https://linktr.ee/ednilsonrossi" target="_blank"
+            rel="noopener noreferrer">Meu Linktree</a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Conteúdo rolável -->
+    <main class="flex-grow-1 overflow-auto p-4">
+      <h2 id="introducao">Introdução</h2>
+      <p>Iniciamos a discussão sobre Arquitetura Hexagonal destacando que ela não se configura, necessariamente, como
+        uma arquitetura de software tradicional. Enquanto a arquitetura de software atua em um nível mais alto de
+        abstração, a Arquitetura Hexagonal está relacionada ao nível de código-fonte. Trata-se, portanto, de um padrão
+        de organização de código cujo objetivo é isolar a lógica de negócio. Essa interpretação fica evidente na
+        publicação original de Alistair Cockburn <a href="#ref1">[1]</a>.</p>
+
+      <h3>O que é Arquitetura Hexagonal?</h3>
+
+      <p>A Arquitetura Hexagonal foi inicialmente denominada Padrão Portas e Adaptadores (<i>Ports and Adapters</i>) em
+        uma publicação de Alistair Cockburn em 2005 <a href="#ref1">[1]</a>. O principal objetivo desse padrão é isolar
+        a lógica de negócio (ou lógica de domínio) dos códigos de infraestrutura, como, por exemplo, a persistência em
+        um banco de dados relacional. Marcos Valente <a href="#ref2">[2]</a> destaca que o padrão se assemelha à
+        Arquitetura Limpa (<i>Clean Architecture</i>), mas sua ideia central é favorecer a reusabilidade de código, a
+        alta coesão, o baixo acoplamento e a independência de tecnologia.</p>
+
+      <div class="text-center my-4">
+        <img src="images/portsandadapters.png" class="img-fluid" alt="Imagem do padrão portas e adaptadores.">
+        <p class="mt-2 text-muted">Figura 1: Padrão Portas e Adaptadores</p>
+      </div>
+
+      <p>A Figura 1 apresenta a ideia central da Arquitetura Hexagonal. Temos uma camada interna (hexagono) que representa a lógica de negócio. Nessa camada estão as classes de domínio e os casos de uso do sistema. Essa camada deve estar completamente independente de tecnologia ou dependências externas, como por exemplo, não é a lógica de negócio que sabe como persistir em um banco de dados relacional. A persistência é delegada para outra camada, a camada de domínio apenas solicita que o dado seja persistido. Na figura observa-se que existem "portas" de entrada e saída. É por meio dessas portas que o domínio da aplicação interage com elementos externos, ou seja, essas portas viabilizam a comunicação com a camada de domínio.</p>
+
+      <p>Conteúdo da introdução...</p>
+
+      <h2 id="conceitos">Conceitos</h2>
+      <p>Conteúdo dos conceitos...</p>
+
+      <h2 id="exemplos">Exemplos</h2>
+
+      <h2 id="exemplos">Referências</h2>
+      <p id="ref1">[1] <a href="https://alistair.cockburn.us/hexagonal-architecture">The Hexagonal (Ports & Adapters)
+          Architecture</a></p>
+      <p id="ref2">[2] <a href="https://engsoftmoderna.info/">Engenharia de Software Moderna</a></p>
+
+
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
