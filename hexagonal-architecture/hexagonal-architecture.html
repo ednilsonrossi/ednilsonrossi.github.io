@@ -9,16 +9,20 @@
 </head>
 
 <body class="d-flex flex-column vh-100">
-  <!-- Título fixo -->
+
+   <!-- Título fixo -->
   <header class="navbar navbar-dark bg-dark flex-shrink-0">
     <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarCollapse" aria-controls="sidebarCollapse" aria-expanded="true" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
       <span class="navbar-brand mb-0 h1">Pattern Ports and Adapters (Arquitetura Hexagonal)</span>
     </div>
   </header>
 
   <div class="d-flex flex-grow-1 overflow-hidden">
-    <!-- Sidebar fixa -->
-    <nav class="bg-dark text-white p-3 flex-shrink-0" style="width: 200px;">
+    <!-- Sidebar visível por padrão -->
+    <nav class="bg-dark text-white p-3 flex-shrink-0 collapse show" id="sidebarCollapse" style="width: 200px;">
       <ul class="nav flex-column">
         <li class="nav-item">
           <a class="nav-link text-white" href="#introducao">Introdução</a>
@@ -33,14 +37,23 @@
           <a class="nav-link text-white" href="#referencias">Referências</a>
         </li>
         <li class="nav-item">
-          <a class="btn btn-outline-light mt-3 w-100" href="https://linktr.ee/ednilsonrossi" target="_blank"
-            rel="noopener noreferrer">Meu Linktree</a>
+          <a class="btn btn-outline-light mt-3 w-100" href="https://linktr.ee/ednilsonrossi" target="_blank" rel="noopener noreferrer">Meu Linktree</a>
         </li>
       </ul>
     </nav>
 
     <!-- Conteúdo rolável -->
     <main class="flex-grow-1 overflow-auto p-4">
+
+      <div class="text-center mb-4">
+        <h1 class="display-4">Pattern Ports and Adapters (Arquitetura Hexagonal)</h1>
+        <p class="lead">Ednilson Geraldo Rossi e Janaina Cintra Abib</p>
+        <p class="lead">Publicado em julho de 2025.</p>
+        <hr>
+      </div>
+
+      <p class="fst-italic text-end">Programe para interfaces, não para implementações.</p>
+
       <h2 id="introducao">Introdução</h2>
       <p>Iniciamos a discussão sobre Arquitetura Hexagonal destacando que ela não se configura, necessariamente, como
         uma arquitetura de software tradicional. Enquanto a arquitetura de software atua em um nível mais alto de
@@ -62,23 +75,69 @@
         <p class="mt-2 text-muted">Figura 1: Padrão Portas e Adaptadores</p>
       </div>
 
-      <p>A Figura 1 apresenta a ideia central da Arquitetura Hexagonal. Temos uma camada interna (hexagono) que representa a lógica de negócio. Nessa camada estão as classes de domínio e os casos de uso do sistema. Essa camada deve estar completamente independente de tecnologia ou dependências externas, como por exemplo, não é a lógica de negócio que sabe como persistir em um banco de dados relacional. A persistência é delegada para outra camada, a camada de domínio apenas solicita que o dado seja persistido. Na figura observa-se que existem "portas" de entrada e saída. É por meio dessas portas que o domínio da aplicação interage com elementos externos, ou seja, essas portas viabilizam a comunicação com a camada de domínio.</p>
+      <p>A Figura 1 apresenta a ideia central da Arquitetura Hexagonal. Há uma camada interna (o hexágono verde) que
+        representa a lógica de negócio (Domínio da Aplicação), onde se encontram as classes de domínio e os casos de uso
+        do sistema. Essa camada deve ser completamente independente de tecnologias ou dependências externas. Por
+        exemplo, não cabe à lógica de negócio definir como persistir dados em um banco de dados relacional; essa
+        responsabilidade é delegada a outra camada. O Domínio da Aplicação apenas solicita que o dado seja persistido,
+        sem conhecer os detalhes dessa operação.</p>
 
-      <p>Conteúdo da introdução...</p>
+      <p>Na figura, observam-se as "portas" de entrada e saída (I/O). É por meio dessas portas que o Domínio da
+        Aplicação interage com elementos externos, viabilizando a comunicação com outras camadas. As portas são
+        utilizadas pelos Adaptadores (o hegágono externo), que possuem dependências externas e de tecnologia, além de
+        conhecerem as portas de entrada e saída do Domínio da Aplicação. Por sua vez, elementos tecnológicos como
+        sistemas gerenciadores de banco de dados, aplicações web, sistemas de mensageria, aplicações móveis, entre
+        outros, comunicam-se com os Adaptadores para solicitar ou fornecer algum serviço ao Domínio da Aplicação.</p>
+
+      <p>Como o Domínio da Aplicação é agnóstico em relação a qualquer tecnologia ou dependência externa, essa camada não é afetada por alterações no ambiente e pode ser migrada para qualquer plataforma que siga as mesmas regras de negócio. Da mesma forma, qualquer mudança de tecnologia — por exemplo, a troca de persistência relacional por não relacional — não impacta a lógica de negócio, sendo necessário apenas criar um adaptador adequado à nova tecnologia de persistência.</p>
+      
+      
+      <h3>Portas</h3>
+
+      <p>As portas são as interfaces utilizadas para a comunicação com as classes do Domínio da Aplicação. Por sua vez, as portas não dependem de tecnologia, estando, por isso, definidas no hexágono interno.</p> 
+      
+      <p>As <b>portas de entrada</b> são interfaces que viabilizam a comunicação do exterior para o interior do Domínio da Aplicação, ou seja, quando algum componente externo precisa que o domínio execute alguma ação. Dessa forma, pode-se dizer que as portas de entrada definem de maneira clara os serviços oferecidos pelo sistema.
+      
+      </p> <p>As <b>portas de saída</b> são interfaces utilizadas para a comunicação do interior do domínio para o exterior, ou seja, quando algum componente do domínio necessita de alguma ação externa, como por exemplo enviar uma mensagem à uma fila.</p>
+
+      <h3>Adaptadores</h3>
+
+      <p>Não é possível desenvolver um sistema sem utilizar alguma tecnologia existente no mundo exterior, seja de comunicação (REST, gRPC etc.), de persistência de dados (SQL, NoSQL etc.) ou de interação com o usuário (web, mobile etc.). Assim, os <b>adaptadores</b> são responsáveis por tratar tanto as requisições do ambiente externo quanto as demandas do Domínio da Aplicação. Eles atuam recebendo chamadas externas e encaminhando-as para os métodos adequados definidos nas portas de entrada. Da mesma forma, recebem chamadas do domínio, por meio das portas de saída, e as direcionam de forma adequada para sistemas externos. Pensando de maneira mais próxima ao código-fonte, pode-se dizer que os adaptadores correspondem às implementações concretas das portas (interfaces).</p>
+
+
+      <h3>Princípio da Resposabilidade Única e a Separação de Interesse</h3>
+
+      <p>É importante perceber que a essência da Arquitetura Hexagonal está fortemente relacionada ao <i>Single Responsibility Principle</i>, sugerido por Uncle Bob <a href="#ref3">[3]</a>, que define que <i>"um componente deve ter apenas uma razão para mudar"</i>. Isso significa, por exemplo, que se algum componente tecnológico do sistema for alterado, não é necessário se preocupar com o Domínio da Aplicação, já que ele é independente e possui um interesse distinto. Dessa forma, observam-se fatores essenciais da Engenharia de Software presentes na Arquitetura Hexagonal: alta coesão e baixo acoplamento.</p>
+
+      <h3>Inversão de Controle (IoC)</h3>
+
+      <p>Um princípio fundamental da Arquitetura Hexagonal é a Inversão de Controle (IoC, do inglês <i>Inversion of Control</i>), que inverte o fluxo de controle em relação aos modelos tradicionais, como a programação procedural. Com esse princípio, o software delega a outros componentes a execução de partes do fluxo. Martin Fowler <a href="#ref4">[4]</a> relembra que o IoC segue o <i>Hollywood Principle: "Don't call us, we'll call you"</i>. Isso ocorre porque as portas de entrada e saída precisam ser implementadas, e o fluxo de controle transita entre os adaptadores e o Domínio da Aplicação por meio dessas portas.</p>
+
 
       <h2 id="conceitos">Conceitos</h2>
       <p>Conteúdo dos conceitos...</p>
 
       <h2 id="exemplos">Exemplos</h2>
 
-      <h2 id="exemplos">Referências</h2>
+      <h2 id="referencias">Referências</h2>
       <p id="ref1">[1] <a href="https://alistair.cockburn.us/hexagonal-architecture">The Hexagonal (Ports & Adapters)
           Architecture</a></p>
-      <p id="ref2">[2] <a href="https://engsoftmoderna.info/">Engenharia de Software Moderna</a></p>
+      <p id="ref2">[2] Marco Tulio Valente. Engenharia de Software Moderna: Princípios e Práticas para Desenvolvimento
+        de Software com Produtividade, Editora: Independente, 2020. <a href="https://engsoftmoderna.info/">(versão
+          aberta e gratuíta em HTML) </a></p>
+
+      <p id="ref3">[3] MARTIN, Robert C. The Single Responsibility Principle. The Clean Code Blog, 08 maio 2014. Disponível em: <a href="https://blog.cleancoder.com/uncle-bob/2014/05/08/SingleReponsibilityPrinciple.html">https://blog.cleancoder.com/uncle-bob/2014/05/08/SingleReponsibilityPrinciple.html.</a></p>
+
+       <p id="ref4">[4] FOWLER, Martin. Inversion of Control. Disponível em: <a href="https://martinfowler.com/bliki/InversionOfControl.html">https://martinfowler.com/bliki/InversionOfControl.html.</a></p>
 
 
     </main>
   </div>
+
+  </div> <!-- Fim do conteúdo principal -->
+<footer class="bg-dark text-white text-center py-2 mt-auto">
+  Conteúdo licenciado sob <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer" class="text-white text-decoration-underline">Creative Commons Attribution 4.0 International (CC BY 4.0)</a>. É permitido usar, desde que a autoria seja indicada: Ednilson Geraldo Rossi.
+</footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
