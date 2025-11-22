@@ -213,13 +213,19 @@
         <p class="mt-2 text-muted">Figura 4: Estrutura de pacotes.</p>
       </div>
 
+      <h4>Implementação do Domínio da Aplicação</h4>
+
       <p>Considerando conceitos do DDD (<i>Domain-Driven Design</i>), entende-se que as entidades devem ser
         identificáveis, ou seja, devem possuir um identificador único. Em nossa solução, existe apenas a entidade
         <code>Task</code> (tarefa), que possui os atributos <code>id</code>, <code>título</code> e <code>estado</code>.
         Abaixo, apresenta-se a definição dessa classe:
       </p>
 
-      <pre>
+      <div class="border rounded mb-3">
+        <div class="bg-light text-dark px-3 py-2 border-bottom">
+          Task.java
+        </div>
+        <pre>
         <code class="language-java">
 package io.github.ednilsonrossi.hexagonal_todoapp.core.domain;
 
@@ -266,10 +272,6 @@ public class Task {
         this.title = title.toUpperCase();
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
     public Long getId() {
         return taskId;
     }
@@ -296,6 +298,514 @@ public class Task {
 }
         </code>
       </pre>
+      </div>
+
+      <p>Ao analisar a classe <code>Task</code>, observam-se três atributos: <code>taskId</code>, <code>title</code> e
+        <code>status</code>. A regra de negócio está diretamente relacionada ao estado (<code>status</code>) da
+        tarefa.
+        Por essa razão, optou-se por implementar <code>Status</code> como um <i>enum</i>, visando à simplificação do
+        exemplo; entretanto, poderia ter sido adotado o padrão de projeto <i>State</i> ou outra estratégia
+        equivalente.
+        A regra de negócio define que o estado da tarefa pode mudar de pendente para em progresso e de em progresso
+        para
+        concluída. Para atender a essa regra, foi implementado o método <code>changeTaskStatus()</code>. Outras duas
+        regras de negócio permitem alterar a tarefa diretamente para concluída ou cancelá-la. Para isso, foram
+        implementados os métodos <code>finishTask()</code> e <code>cancelTask()</code>. É importante observar que não
+        existe um método <code>setStatus()</code>, uma vez que essa operação não faz parte da regra de negócio e o
+        estado da tarefa não deve ser alterado de forma indiscriminada.
+      </p>
+
+      <p>Em seguida, analise o <i>enum</i> <code>Status</code>. Esse <i>enum</i> encapsula parte da regra de negócio,
+        pois é ele que define qual será o próximo estado (<code>Status</code>) a ser aplicado.</p>
+
+      <div class="border rounded mb-3">
+        <div class="bg-light text-dark px-3 py-2 border-bottom">
+          Status.java
+        </div>
+        <pre>
+        <code class="language-java">
+package io.github.ednilsonrossi.hexagonal_todoapp.core.domain;
+
+public enum Status {
+    PENDING(1),         // Tarefa criada, mas não iniciada
+    IN_PROGRESS(2),     // Tarefa em andamento
+    COMPLETED(3),       // Tarefa finalizada
+    CANCELED(99);       // Tarefa cancelada
+
+    private final int order;
+
+    Status(int order) {
+        this.order = order;
+    }
+
+    public int getOrder() {
+        return order;
+    }
+
+    public Status next() {
+        if (this == PENDING) {
+            return IN_PROGRESS;
+        } else if (this == IN_PROGRESS) {
+            return COMPLETED;
+        } else {
+            return this;
+        }
+    }
+
+    public static Status fromCode(int code) {
+        for (Status s : Status.values()) {
+            if (s.getOrder() == code) {
+                return s;
+            }
+        }
+        throw new IllegalArgumentException("Code invalid: " + code);
+    }
+}
+        </code>
+      </pre>
+      </div>
+
+      <p>Aqui está implementada parte do domínio da nossa aplicação, servindo como base para o restante do
+        desenvolvimento. Observe que estamos desenvolvendo essas classes sem qualquer dependência de bibliotecas
+        externas, como as do Spring. Também se optou por não incluir bibliotecas como o Lombok, já que o objetivo da
+        Arquitetura Hexagonal é manter o núcleo (<i>core</i>) da aplicação livre de dependências. A seguir, vamos
+        visualizar as portas de entrada e saída da aplicação. As portas são interfaces que descrevem quais métodos o
+        núcleo da aplicação expõe para receber solicitações ou utiliza para solicitar ações externas.</p>
+
+      <div class="border rounded mb-3">
+        <div class="bg-light text-dark px-3 py-2 border-bottom">
+          TaskInputPort.java
+        </div>
+        <pre>
+        <code class="language-java">
+package io.github.ednilsonrossi.hexagonal_todoapp.core.port.in;
+
+import io.github.ednilsonrossi.hexagonal_todoapp.core.domain.Task;
+import java.util.List;
+
+public interface TaskInputPort {
+    Task createTask(Task task);
+
+    Task updateTask(Task task);
+
+    Task changeTaskStatus(Task task);
+
+    Task finishTask(Task task);
+
+    Task cancelTask(Task task);
+
+    Task getTask(Long id);
+
+    List<Task> getPendingTask();
+
+    List<Task> getPendingAndInProgressTask();
+}
+        </code>
+      </pre>
+      </div>
+
+
+      <div class="border rounded mb-3">
+        <div class="bg-light text-dark px-3 py-2 border-bottom">
+          TaskRepositoryPort.java
+        </div>
+        <pre>
+        <code class="language-java">
+package io.github.ednilsonrossi.hexagonal_todoapp.core.port.out;
+
+import io.github.ednilsonrossi.hexagonal_todoapp.core.domain.Task;
+import java.util.List;
+
+public interface TaskRepositoryPort {
+
+    Task save(Task task) throws IllegalArgumentException;
+
+    Task update(Task task) throws IllegalArgumentException;
+
+    Task get(Long id);
+
+    List<Task> getAll();
+}
+
+        </code>
+      </pre>
+      </div>
+
+      <p>Seguindo o estilo de código da Arquitetura Hexagonal, as portas estão localizadas <i>dentro</i> do núcleo
+        (<i>core</i>) da aplicação. Neste caso, elas estão no pacote
+        <code>io.github.ednilsonrossi.hexagonal_todoapp.core.port</code>. Agora, vamos concluir a implementação do
+        Domínio da Aplicação, definindo os serviços fornecidos.
+      </p>
+
+      <div class="border rounded mb-3">
+        <div class="bg-light text-dark px-3 py-2 border-bottom">
+          TaskService.java
+        </div>
+        <pre>
+        <code class="language-java">
+package io.github.ednilsonrossi.hexagonal_todoapp.core.application;
+
+import io.github.ednilsonrossi.hexagonal_todoapp.core.domain.Status;
+import io.github.ednilsonrossi.hexagonal_todoapp.core.domain.Task;
+import io.github.ednilsonrossi.hexagonal_todoapp.core.port.in.TaskInputPort;
+import io.github.ednilsonrossi.hexagonal_todoapp.core.port.out.TaskRepositoryPort;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class TaskService implements TaskInputPort {
+
+    private final TaskRepositoryPort repository;
+
+    public TaskService(TaskRepositoryPort taskRepositoryPort) {
+        this.repository = taskRepositoryPort;
+    }
+
+    @Override
+    public Task createTask(Task task) {
+        return repository.save(task);
+    }
+
+    @Override
+    public Task updateTask(Task task) {
+        return repository.update(task);
+    }
+
+    @Override
+    public Task changeTaskStatus(Task task) {
+        task.changeTaskStatus();
+        return repository.update(task);
+    }
+
+    @Override
+    public Task finishTask(Task task) {
+        task.finishTask();
+        return repository.update(task);
+    }
+
+    @Override
+    public Task cancelTask(Task task) {
+        task.cancelTask();
+        return repository.update(task);
+    }
+
+    @Override
+    public Task getTask(Long id) {
+        return repository.get(id);
+    }
+
+    @Override
+    public List<Task> getPendingTask() {
+        var all = repository.getAll();
+        return all.stream()
+                .filter(task -> task.getStatus() == Status.PENDING)
+                .toList();
+    }
+
+    @Override
+    public List<Task> getPendingAndInProgressTask() {
+        var all = repository.getAll();
+        return all.stream()
+                .filter(task -> task.getStatus() == Status.PENDING || task.getStatus() == Status.IN_PROGRESS)
+                .collect(Collectors.toList());
+    }
+}
+        </code>
+      </pre>
+      </div>
+
+      <p>Analisando a classe de serviço, observamos que ela implementa a porta de entrada da aplicação. Ou seja, a
+        classe <code>TaskService</code> é a implementação concreta da nossa porta de entrada. Essa implementação possui
+        dependência do repositório de tarefas; no entanto, perceba que o tipo do atributo <code>repository</code> é
+        <code>TaskRepositoryPort</code>, ou seja, trata-se da interface que representa a porta de saída do Domínio da
+        Aplicação. Quando for necessário utilizar os serviços de domínio, deve-se injetar a implementação concreta do
+        repositório. Ainda assim, mantém-se um baixo acoplamento, já que a classe <code>TaskService</code> não conhece
+        nenhum detalhe sobre a implementação concreta do repositório. É importante destacar que a classe de serviço
+        também não possui dependências externas, utilizando apenas código Java e dependências internas do próprio
+        domínio.
+      </p>
+
+      <h4>Implementação dos Adaptadores: Adapter de Saída para o repositório</h4>
+      <p>Conforme indicado na proposta inicial, vamos implementar a persistência de dados em memória utilizando uma
+        lista encadeada. Para isso, será utilizada a classe <code>LinkedList</code> da biblioteca
+        <code>java.util</code>. Embora essa implementação não faça uso de dependências externas, poderíamos incluir
+        dependências de tecnologia, já que estamos na camada de adaptadores, e essa camada pode ter dependências
+        externas sem comprometer o núcleo da aplicação.
+      </p>
+
+      <div class="border rounded mb-3">
+        <div class="bg-light text-dark px-3 py-2 border-bottom">
+          TaskDataMemoryAdapter.java
+        </div>
+        <pre>
+        <code class="language-java">
+package io.github.ednilsonrossi.hexagonal_todoapp.adapter.repository;
+
+import io.github.ednilsonrossi.hexagonal_todoapp.core.domain.Task;
+import io.github.ednilsonrossi.hexagonal_todoapp.core.port.out.TaskRepositoryPort;
+import io.github.ednilsonrossi.hexagonal_todoapp.exception.TaskNotFoundException;
+
+import java.util.LinkedList;
+import java.util.List;
+
+public class TaskDataMemoryAdapter implements TaskRepositoryPort {
+    private static Long lastId = 1L;
+    private final List<Task> dataset;
+
+    public TaskDataMemoryAdapter() {
+        dataset = new LinkedList<>();
+    }
+
+    @Override
+    public Task save(Task task) {
+        if (task == null) {
+            throw new IllegalArgumentException("DataMemoryStore: task is null.");
+        }
+
+        lastId = lastId + 1;
+        var novel = new Task(lastId, task.getTitle(), task.getStatus());
+        dataset.add(novel);
+        return novel;
+    }
+
+    @Override
+    public Task update(Task task) throws IllegalArgumentException, TaskNotFoundException {
+        if (task == null) {
+            throw new IllegalArgumentException("DataMemoryStore: task is null.");
+        }
+
+        Task inDataset = null;
+        for (Task t : dataset) {
+            if (t.equals(task)) {
+                inDataset = t;
+                break;
+            }
+        }
+        if (inDataset == null) {
+            throw new TaskNotFoundException(task.getId());
+        }
+
+        dataset.remove(inDataset);
+        inDataset = new Task(task.getId(), task.getTitle(), task.getStatus());
+        dataset.add(inDataset);
+        return inDataset;
+    }
+
+    @Override
+    public Task get(Long id) {
+        return dataset.stream()
+                .filter(task -> task.getId().equals(id))
+                .findFirst()
+                .orElse(null);
+    }
+
+    @Override
+    public List<Task> getAll() {
+        return List.copyOf(dataset);
+    }
+}
+        </code>
+      </pre>
+      </div>
+
+      <h4>Implementação dos Adaptadores: Adaptador de Entrada (API HTTP)</h4>
+      <p>A seguir, apresentamos a implementação do adaptador responsável por realizar a entrada no sistema. Optou-se por
+        implementar uma API REST para receber as chamadas e encaminhá-las de forma adequada. O primeiro ponto a ser
+        observado é que esse adaptador utiliza dependências do framework Spring para o tratamento das requisições. Outra
+        observação importante é que esse adaptador depende da porta de entrada para encaminhar as requisições. É
+        importante destacar que o adaptador depende da porta de entrada, e não diretamente da implementação da classe
+        <code>TaskService</code>. A injeção dessa dependência será realizada pelo Spring por meio de uma configuração
+        específica, que será abordada mais adiante. Agora, basta analisar a implementação a seguir para compreender como
+        as requisições transitam do adaptador para o Domínio da Aplicação.
+      </p>
+
+      <div class="border rounded mb-3">
+        <div class="bg-light text-dark px-3 py-2 border-bottom">
+          TodoappController.java
+        </div>
+        <pre>
+        <code class="language-java">
+package io.github.ednilsonrossi.hexagonal_todoapp.adapter.controller;
+
+import io.github.ednilsonrossi.hexagonal_todoapp.core.domain.Task;
+import io.github.ednilsonrossi.hexagonal_todoapp.core.port.in.TaskInputPort;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("todo")
+public class TodoappController {
+
+    private final TaskInputPort inputPort;
+
+    public TodoappController(TaskInputPort taskInputPort) {
+        this.inputPort = taskInputPort;
+    }
+
+    @GetMapping
+    public ResponseEntity check() {
+        return ResponseEntity.ok("Working...");
+    }
+
+    @GetMapping("/pending")
+    public ResponseEntity getPending() {
+        return ResponseEntity.ok(inputPort.getPendingTask());
+    }
+
+    @GetMapping("/undone")
+    public ResponseEntity getUndone() {
+        return ResponseEntity.ok(inputPort.getPendingAndInProgressTask());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity getTaskByID(@PathVariable Long id) {
+        var task = inputPort.getTask(id);
+        if (task == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(task);
+    }
+
+    @PostMapping
+    public ResponseEntity create(@RequestBody Task task) {
+        var saved = inputPort.createTask(task);
+        return ResponseEntity.ok(saved);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity changeTaskStatus(@PathVariable Long id) {
+        var task = inputPort.getTask(id);
+        if (task == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        task = inputPort.changeTaskStatus(task);
+        return ResponseEntity.ok(task);
+    }
+
+}
+        </code>
+      </pre>
+      </div>
+
+      <h4>Configurações e Injeção de Dependências</h4>
+      <p>Neste ponto da implementação, você deve ter percebido que estão faltando dois elementos muito importantes no
+        código: a chamada do construtor de <code>TaskService</code> e a chamada do construtor de
+        <code>TodoappController</code>. Ou seja, ainda é necessário injetar os objetos <code>taskRepositoryPort</code> e
+        <code>taskInputPort</code> para que tudo funcione corretamente.
+      </p>
+      <p>Para instanciar esses objetos e utilizá-los no projeto, vamos utilizar os <i>Beans</i> do framework Spring.
+        Serão criadas duas classes de configuração: uma para instanciar a classe <code>TaskService</code> e outra para
+        <code>TaskDataMemoryAdapter</code>. Com esses <i>Beans</i>, o Spring realizará a injeção de dependências
+        automaticamente sempre que esses objetos forem necessários. A seguir, apresentamos as duas classes de
+        configuração.
+      </p>
+
+      <div class="border rounded mb-3">
+        <div class="bg-light text-dark px-3 py-2 border-bottom">
+          InputPortConfig.java
+        </div>
+        <pre>
+        <code class="language-java">
+package io.github.ednilsonrossi.hexagonal_todoapp.config;
+
+import io.github.ednilsonrossi.hexagonal_todoapp.core.application.TaskService;
+import io.github.ednilsonrossi.hexagonal_todoapp.core.port.in.TaskInputPort;
+import io.github.ednilsonrossi.hexagonal_todoapp.core.port.out.TaskRepositoryPort;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class InputPortConfig {
+
+    @Bean
+    public TaskInputPort getTaskInputImpl(TaskRepositoryPort repositoryPort) {
+        return new TaskService(repositoryPort);
+    }
+}
+        </code>
+      </pre>
+      </div>
+
+      <div class="border rounded mb-3">
+        <div class="bg-light text-dark px-3 py-2 border-bottom">
+          RepositoryConfig.java
+        </div>
+        <pre>
+        <code class="language-java">
+package io.github.ednilsonrossi.hexagonal_todoapp.config;
+
+import io.github.ednilsonrossi.hexagonal_todoapp.adapter.repository.TaskDataMemoryAdapter;
+import io.github.ednilsonrossi.hexagonal_todoapp.core.port.out.TaskRepositoryPort;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class RepositoryConfig {
+
+    @Bean
+    public TaskRepositoryPort getRepositoryImpl() {
+        return new TaskDataMemoryAdapter();
+    }
+
+}
+        </code>
+      </pre>
+      </div>
+
+      <p>Pronto, o sistema está implementado e funcional. Basta realizar chamadas usando, por exemplo, o Postman, e toda
+        a aplicação estará em funcionamento, com baixo acoplamento e com as regras de negócio livres de qualquer
+        dependência externa.</p>
+
+      <p>Perceba que podemos simplesmente copiar o pacote <code>core</code> para um projeto no Android, sem que seja
+        necessária qualquer alteração no núcleo do sistema, sendo preciso apenas implementar os adaptadores específicos
+        para aquela tecnologia. No entanto, talvez você ainda não esteja totalmente convencido da solução implementada
+        até aqui, ou possa achar que o projeto ficou extenso. Por isso, vamos propor uma segunda solução: substituir a
+        persistência em memória por uma implementação usando um banco de dados relacional.</p>
+
+      <h3>Solução 2</h3>
+      <p>O objetivo desta segunda solução é demonstrar que nossa aplicação pode integrar diferentes tecnologias sem que
+        o Domínio da Aplicação sofra qualquer intervenção. Alterar a forma de persistência não impacta as regras de
+        negócio, portanto o núcleo (<i>core</i>) da aplicação deve permanecer intacto. Isso é possível porque o
+        <i>core</i> foi projetado para ser independente de tecnologia. Para simplificação, utilizaremos o banco de dados
+        relacional H2 (em memória); porém, poderíamos ter escolhido um serviço de banco de dados como MySQL, Oracle,
+        MongoDB ou qualquer outra forma de persistência. Para incluir ainda mais dependências tecnológicas na aplicação,
+        utilizaremos a biblioteca JPA para realizar a persistência de dados.
+      </p>
+
+      <div class="text-center my-4">
+        <img src="images/soluction2.png" class="img-fluid" alt="Proposta de solução usando banco de dados relacional.">
+        <p class="mt-2 text-muted">Figura 5: Proposta de solução 2.</p>
+      </div>
+
+      <h4>Implementando persistência em banco de dados relacional</h4>
+      <p>Como vamos implementar a persistência usando JPA, a primeira coisa que precisamos fazer é mapear uma entidade
+        para ser persistida no banco. Nada mais simples do que acessar a classe <code>Task</code> e adicionar as
+        anotações do JPA para indicar a tabela e os campos.</p>
+
+      <p><b>ATENÇÃO:</b> Transformar a classe <code>Task</code> em uma entidade JPA significaria incluir uma dependência
+        externa no Domínio da Aplicação, o que não é uma alternativa aceitável para nós.</p>
+        
+      <p>Para garantir a conformidade com a Arquitetura Hexagonal, teremos sim uma entidade JPA, mas ela estará
+        localizada junto dos adaptadores, que podem depender de tecnologia. É importante perceber que uma entidade JPA
+        não é o mesmo objeto manipulado pelo domínio, mesmo que os dados sejam semelhantes ou idênticos. A entidade tem
+        o propósito único de representar uma tupla no banco de dados relacional, sem possuir qualquer regra de negócio
+        associada a ela. A seguir, apresentamos a implementação da classe <code>TaskEntity</code>, que representa nossa
+        entidade. Essa classe está implementada junto dos adaptadores.</p>
+
+
+      <div class="border rounded mb-3">
+        <div class="bg-light text-dark px-3 py-2 border-bottom">
+          Arquivo.java
+        </div>
+        <pre>
+        <code class="language-java">
+
+        </code>
+      </pre>
+      </div>
+
 
       <h2 id="referencias">Referências</h2>
       <p id="ref1">[1] <a href="https://alistair.cockburn.us/hexagonal-architecture">The Hexagonal (Ports & Adapters)
