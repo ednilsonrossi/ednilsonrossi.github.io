@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-bs-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <title>Publicações</title>
+
+  <!-- Bootstrap -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  >
+
+  <!-- Bootstrap Icons -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+    rel="stylesheet"
+  >
+
+  <style>
+    .publication-card {
+      border-left: 5px solid var(--bs-primary);
+    }
+
+    .pdf-info {
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container my-5">
+
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Publicações</h1>
+
+    <!-- Dark Mode Toggle -->
+    <button id="themeToggle" class="btn btn-outline-secondary">
+      <i class="bi bi-moon"></i>
+    </button>
+  </div>
+
+  <!-- ===================== FILTROS ===================== -->
+  <div class="row g-3 mb-4">
+    <div class="col-md-4">
+      <select id="filterYear" class="form-select">
+        <option value="all">Todos os anos</option>
+        <option value="2025">2025</option>
+        <option value="2024">2024</option>
+      </select>
+    </div>
+
+    <div class="col-md-4">
+      <select id="filterType" class="form-select">
+        <option value="all">Todos os tipos</option>
+        <option value="congresso">Congresso</option>
+        <option value="periodico">Periódico</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- ===================== PUBLICAÇÕES ===================== -->
+
+  <div class="publication card publication-card mb-3"
+       data-year="2025"
+       data-type="congresso">
+    <div class="card-body">
+
+      <p>
+        <strong>FERNANDES FILHO, Samuel; ROSSI, Ednilson Geraldo.</strong><br>
+        <em>Serious game: desenvolvimento de um sistema de resposta para estudantes gamificado.</em><br>
+        11º Congresso de Iniciação Científica do IFSP, Campus Itapetininga, 2025.
+      </p>
+
+      <span class="badge text-bg-success mb-2">
+        Congresso
+      </span>
+
+      <div class="d-flex flex-wrap gap-2 mt-3 align-items-center">
+
+        <a
+          href="https://eventosacademicos.itp.ifsp.edu.br/index.php/ic/article/view/9"
+          target="_blank"
+          class="btn btn-sm btn-outline-primary"
+        >
+          Acessar publicação
+        </a>
+
+        <a
+          href="pdf/2025/FERNANDES-FILHO__2025.pdf"
+          target="_blank"
+          class="btn btn-sm btn-outline-danger"
+        >
+          <i class="bi bi-file-earmark-pdf"></i>
+          PDF
+        </a>
+
+        <span class="pdf-info text-muted">
+          <i class="bi bi-hdd"></i> 362 KB
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="publication card publication-card mb-3"
+       data-year="2024"
+       data-type="congresso">
+    <div class="card-body">
+
+      <p>
+        <strong>SANTOS, A. L. F.; ROSSI, E. G.; ABIB, J. C.</strong><br>
+        <em>O Pensamento Computacional no Ensino de Lógica e de Programação: Criando Objetos de Aprendizagem com o Thunkable.</em><br>
+        15º Congresso de Inovação, Ciência e Tecnologia do IFSP, 2024, Barretos-SP.
+      </p>
+
+      <span class="badge text-bg-success mb-2">
+        Congresso
+      </span>
+
+      <div class="d-flex flex-wrap gap-2 mt-3 align-items-center">
+        <a
+          href="https://congressos.ifsp.edu.br/conict/article/view/366"
+          target="_blank"
+          class="btn btn-sm btn-outline-primary"
+        >
+          Acessar publicação
+        </a>
+
+        <a
+          href="pdf/2024/CONICT_2024_(473).pdf"
+          target="_blank"
+          class="btn btn-sm btn-outline-danger"
+        >
+          <i class="bi bi-file-earmark-pdf"></i>
+          PDF
+        </a>
+
+        <span class="pdf-info text-muted">
+          <i class="bi bi-hdd"></i> 326 KB
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="publication card publication-card mb-3"
+       data-year="2024"
+       data-type="congresso">
+    <div class="card-body">
+
+      <p>
+        <strong>RIGHI, G. F. ; ROSSI, E. G. ; ROSALES, G. C. M. ; ABIB, J. C.</strong><br>
+        <em>Diretrizes para Criação e Avaliação de Objetos de Aprendizagem.</em><br>
+        15º Congresso de Inovação, Ciência e Tecnologia do IFSP, 2024, Barretos-SP.
+      </p>
+
+      <span class="badge text-bg-success mb-2">
+        Congresso
+      </span>
+
+      <div class="d-flex flex-wrap gap-2 mt-3 align-items-center">
+        <a
+          href="https://congressos.ifsp.edu.br/conict/article/view/263"
+          target="_blank"
+          class="btn btn-sm btn-outline-primary"
+        >
+          Acessar publicação
+        </a>
+
+        <a
+          href="pdf/2024/CONICT_2024_(520).pdf"
+          target="_blank"
+          class="btn btn-sm btn-outline-danger"
+        >
+          <i class="bi bi-file-earmark-pdf"></i>
+          PDF
+        </a>
+
+        <span class="pdf-info text-muted">
+          <i class="bi bi-hdd"></i> 150 KB
+        </span>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="publication card publication-card mb-3"
+       data-year="2023"
+       data-type="periodico">
+    <div class="card-body">
+
+      <p>
+        <strong>COLOMBO, L. S. ; ROSALES, G. C. M. ; ABIB, J. C. ; ROSSI, E. G.</strong><br>
+        <em>Aware Knowledge Retention Model para investigação de relações entre o pensamento computacional e a criatividade.</em><br>
+        Qualif - Revista Acadêmica de Ensino de Ciências e Tecnologia do IFSP - Campus Cubatão, v. 1, p. 38-50, 2023.
+      </p>
+
+      <span class="badge text-bg-success mb-2">
+        Periódico
+      </span>
+
+      <div class="d-flex flex-wrap gap-2 mt-3 align-items-center">
+        <a
+          href="https://intranet.cbt.ifsp.edu.br/qualif/anteriores.html#volume12"
+          target="_blank"
+          class="btn btn-sm btn-outline-primary"
+        >
+          Acessar publicação
+        </a>
+
+        <a
+          href="pdf/2023/artigo6.pdf"
+          target="_blank"
+          class="btn btn-sm btn-outline-danger"
+        >
+          <i class="bi bi-file-earmark-pdf"></i>
+          PDF
+        </a>
+
+        <span class="pdf-info text-muted">
+          <i class="bi bi-hdd"></i> 840 KB
+        </span>
+      </div>
+    </div>
+  </div>
+
+
+
+
+</div>
+
+
+
+<!-- ===================== JS ===================== -->
+<script>
+  // Dark mode persistence
+  const html = document.documentElement;
+  const toggle = document.getElementById("themeToggle");
+
+  const storedTheme = localStorage.getItem("theme");
+  if (storedTheme) html.setAttribute("data-bs-theme", storedTheme);
+
+  toggle.addEventListener("click", () => {
+    const current = html.getAttribute("data-bs-theme");
+    const next = current === "dark" ? "light" : "dark";
+    html.setAttribute("data-bs-theme", next);
+    localStorage.setItem("theme", next);
+  });
+
+  // Filtering
+  const filterYear = document.getElementById("filterYear");
+  const filterType = document.getElementById("filterType");
+  const publications = document.querySelectorAll(".publication");
+
+  function applyFilters() {
+    const year = filterYear.value;
+    const type = filterType.value;
+
+    publications.forEach(pub => {
+      const matchYear = year === "all" || pub.dataset.year === year;
+      const matchType = type === "all" || pub.dataset.type === type;
+
+      pub.style.display = matchYear && matchType ? "block" : "none";
+    });
+  }
+
+  filterYear.addEventListener("change", applyFilters);
+  filterType.addEventListener("change", applyFilters);
+</script>
+
+</body>
+</html>
