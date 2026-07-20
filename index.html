@@ -1,42 +1,487 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ednilson Rossi</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-  </head>
-  <body class="d-flex flex-column justify-content-center align-items-center vh-100 bg-light">
-    <div class="text-center">
-      <h1 class="display-4">Ednilson Rossi</h1>
-      <a
-        href="https://linktr.ee/ednilsonrossi"
-        class="btn btn-primary mt-3"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Meu Linktree
-      </a>
-      <a
-        href="/hexagonal-architecture/hexagonal-architecture.html"
-        class="btn btn-primary mt-3"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Pattern Ports and Adapters
-      </a>
-      <a
-        href="/publications/PublicacoesEdnilsonRossi.html"
-        class="btn btn-primary mt-3"
-        rel="noopener noreferrer"
-      >
-        Publicações
-      </a>
-    </div>
+<!doctype html>
+<html lang="pt-BR" data-bs-theme="light">
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-  </body>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Ednilson Geraldo Rossi</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg bg-body sticky-top shadow-sm">
+
+        <div class="container">
+
+            <a class="navbar-brand fw-bold" href="index.html">
+                Ednilson Rossi
+            </a>
+
+            <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar">
+
+                <span class="navbar-toggler-icon"></span>
+
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbar">
+
+                <ul class="navbar-nav ms-auto align-items-lg-center">
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">
+                            Sobre
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="ensino.html">
+                            Ensino
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="publications/publications.html">
+                            Publicações
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://lattes.cnpq.br/9904327645638055" target="_blank">
+                            CV
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">
+                            Contato
+                        </a>
+                    </li>
+
+                    <li class="nav-item ms-lg-3">
+
+                        <button id="themeToggle" class="btn btn-outline-secondary btn-sm">
+
+                            <i class="bi bi-moon-stars"></i>
+
+                        </button>
+
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+    <header class="container py-5">
+
+        <div class="row align-items-center gy-4">
+
+            <!-- Foto -->
+            <div class="col-lg-4 text-center">
+                <img src="assets/img/profile.jpg" class="img-fluid rounded-circle shadow profile-photo"
+                    alt="Ednilson Geraldo Rossi">
+            </div>
+
+            <!-- Informações -->
+            <div class="col-lg-8">
+                <h1 class="display-5 fw-bold mb-2">
+                    Ednilson Geraldo Rossi
+                </h1>
+                <h4 class="text-primary mb-3">
+                    Professor do Instituto Federal de São Paulo (IFSP)
+                </h4>
+                <p class="text-secondary mb-4">
+                    Doutorando em Ciência da Computação
+                </p>
+                <div class="mb-4">
+                    <span class="area-tag">
+                        Engenharia de Software
+                    </span>
+                    <span class="area-tag">
+                        Arquitetura de Software
+                    </span>
+                    <span class="area-tag">
+                        Microsserviços
+                    </span>
+                </div>
+
+
+            </div>
+        </div>
+    </header>
+
+    <section id="about" class="py-5">
+        <div class="container">
+            <div class="row">
+
+                <!-- Sobre -->
+                <div class="col">
+                    <h2 class="mb-4">
+                        Sobre
+                    </h2>
+                    <p class="lead">
+                        Sou professor do <strong>Instituto Federal de Educação, Ciência e Tecnologia de São Paulo (IFSP)
+                            – Câmpus Araraquara</strong>, onde atuo na área de Informática, desenvolvendo atividades de
+                        ensino, pesquisa e orientação de estudantes.
+                    </p>
+                    <p class="lead">
+                        Minha atuação concentra-se em <strong>Engenharia de Software</strong>,
+                        <strong>Arquitetura de Software</strong>,
+                        <strong>Arquitetura de Microsserviços</strong> e
+                        <strong>Educação em Computação</strong>,
+                        com interesse especial em métodos, técnicas e ferramentas para apoio ao desenvolvimento,
+                        evolução e conformidade arquitetural de sistemas de software.
+                    </p>
+                    <p class="lead">
+                        Atualmente sou <strong>doutorando em Ciência da Computação</strong> pelo
+                        <strong>Programa de Pós-Graduação em Ciência da Computação (PPGCC)</strong>
+                        do <strong>Departamento de Computação (DC)</strong> da
+                        <strong>Universidade Federal de São Carlos (UFSCar)</strong>.
+                        Minha pesquisa investiga abordagens para
+                        <em>Architectural Conformance Checking</em> em sistemas baseados em
+                        microsserviços, explorando a representação do conhecimento arquitetural,
+                        decisões arquiteturais e mecanismos de verificação automatizada da conformidade.
+                    </p>
+                    <p class="lead">
+                        Também participo do desenvolvimento de materiais didáticos, da orientação
+                        de projetos de iniciação científica e da produção científica em Engenharia
+                        de Software, buscando integrar pesquisa, ensino e inovação tecnológica.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+     AFILIAÇÕES
+    ========================== -->
+
+    <section id="affiliations" class="py-5">
+
+        <div class="container">
+
+            <div class="row">
+
+                <div class="col-lg-12">
+
+                    <h2 class="mb-2">
+                        Afiliações
+                    </h2>
+
+                    <p class="text-muted mb-4">
+                        Instituições de ensino, pesquisa e inovação às quais estou vinculado.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="row g-4">
+
+                <!-- UFSCar -->
+
+                <div class="col-md-6 col-xl-3">
+
+                    <a href="https://www.ppgcc.ufscar.br/" target="_blank" class="text-decoration-none">
+
+                        <div class="card affiliation-card h-100 shadow-sm">
+
+                            <div class="card-body">
+
+                                <!-- <div class="d-flex justify-content-between align-items-start mb-3">
+
+                                    <img src="assets/img/logos/ufscar.svg" alt="UFSCar" class="affiliation-logo">
+
+                                    <i class="bi bi-box-arrow-up-right text-secondary"></i>
+
+                                </div> -->
+
+                                <h5 class="card-title">
+                                    UFSCar
+                                </h5>
+
+                                <p class="text-muted small mb-3">
+                                    Universidade Federal de São Carlos
+                                </p>
+
+                                <p class="mb-1">
+
+                                    <strong>Doutorando</strong>
+
+                                </p>
+
+                                <small class="text-muted">
+
+                                    Programa de Pós-Graduação em Ciência da Computação
+
+                                    <br>
+
+                                    Departamento de Computação (DC)
+
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                    </a>
+
+                </div>
+
+                <!-- IFSP -->
+
+                <div class="col-md-6 col-xl-3">
+
+                    <a href="https://arq.ifsp.edu.br/" target="_blank" class="text-decoration-none">
+
+                        <div class="card affiliation-card h-100 shadow-sm">
+
+                            <div class="card-body">
+
+                                <!-- <div class="d-flex justify-content-between align-items-start mb-3">
+
+                                    <img src="assets/img/logos/ifsp.svg" alt="IFSP" class="affiliation-logo">
+
+                                    <i class="bi bi-box-arrow-up-right text-secondary"></i>
+
+                                </div> -->
+
+                                <h5 class="card-title">
+                                    IFSP
+                                </h5>
+
+                                <p class="text-muted small mb-3">
+                                    Instituto Federal de São Paulo
+                                </p>
+
+                                <p class="mb-1">
+
+                                    <strong>Professor</strong>
+
+                                </p>
+
+                                <small class="text-muted">
+
+                                    Campus Araraquara
+
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                    </a>
+
+                </div>
+
+                <!-- LABTEC -->
+
+                <div class="col-md-6 col-xl-3">
+
+                    <a href="https://arq.ifsp.edu.br/labtec" target="_blank" class="text-decoration-none">
+
+                        <div class="card affiliation-card h-100 shadow-sm">
+
+                            <div class="card-body">
+
+                                <!-- <div class="d-flex justify-content-between align-items-start mb-3">
+
+                                    <img src="assets/img/logos/labtec.svg" alt="LABTEC" class="affiliation-logo">
+
+                                    <i class="bi bi-box-arrow-up-right text-secondary"></i>
+
+                                </div> -->
+
+                                <h5 class="card-title">
+                                    LABTEC
+                                </h5>
+
+                                <p class="text-muted small mb-3">
+                                    Laboratório de Tecnologias para Educação e Computação
+                                </p>
+
+                                <p class="mb-1">
+
+                                    <strong>Pesquisador</strong>
+
+                                </p>
+
+                                <small class="text-muted">
+
+                                    Grupo de pesquisa CNPq do IFSP
+                                    <br>
+                                    Campus Araraquara
+
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                    </a>
+
+                </div>
+
+                <!-- AdvanSE -->
+
+                <div class="col-md-6 col-xl-3">
+
+                    <a href="https://www.advanse.ufscar.br/pt-br" target="_blank" class="text-decoration-none">
+
+                        <div class="card affiliation-card h-100 shadow-sm">
+
+                            <div class="card-body">
+
+                                <!-- <div class="d-flex justify-content-between align-items-start mb-3">
+
+                                    <img src="assets/img/logos/advanse.svg" alt="AdvanSE" class="affiliation-logo">
+
+                                    <i class="bi bi-box-arrow-up-right text-secondary"></i>
+
+                                </div> -->
+
+                                <h5 class="card-title">
+                                    AdvanSE Lab
+                                </h5>
+
+                                <p class="text-muted small mb-3">
+                                    Advanced Software Engineering Laboratory
+                                </p>
+
+                                <p class="mb-1">
+
+                                    <strong>Pesquisador</strong>
+
+                                </p>
+
+                                <small class="text-muted">
+
+                                    Universidade Federal de São Carlos
+
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+
+
+
+
+    <main class="container">
+
+        <section class="mt-5">
+            <h2>Áreas de atuação</h2>
+            <div class="d-flex flex-wrap gap-2">
+                <span class="badge text-bg-primary">Engenharia de Software</span>
+                <span class="badge text-bg-primary">Arquitetura de Software</span>
+                <span class="badge text-bg-primary">Microsserviços</span>
+                <span class="badge text-bg-success">Educação em Computação</span>
+            </div>
+        </section>
+    </main>
+
+
+
+    <footer id="contact" class="bg-body-tertiary mt-5 border-top">
+
+        <div class="container py-5">
+
+            <div class="row gy-4">
+
+                <div class="col-lg-6">
+
+                    <h3 class="mb-3">
+                        Contato
+                    </h3>
+
+                    <p>
+                        <i class="bi bi-envelope"></i>
+                        ednilsonrossi at ifsp.edu.br
+                    </p>
+
+                    <p>
+                        <i class="bi bi-geo-alt"></i>
+                        Instituto Federal de São Paulo<br>
+                        Campus Araraquara
+                    </p>
+
+                </div>
+
+                <div class="col-lg-6">
+
+                    <h3 class="mb-3">
+                        Links
+                    </h3>
+
+                    <div class="d-flex flex-wrap gap-2">
+                        <a class="btn btn-outline-primary" href="http://lattes.cnpq.br/9904327645638055"
+                            target="_blank">
+                            <i class="bi bi-person-vcard"></i>
+                            Lattes
+                        </a>
+                        <a class="btn btn-outline-primary"
+                            href="https://scholar.google.com/citations?user=kDh4M1sAAAAJ&hl=pt-BR" target="_blank">
+                            <i class="bi bi-mortarboard"></i>
+                            Scholar
+                        </a>
+                        <a class="btn btn-outline-primary" href="https://orcid.org/0009-0006-0477-3010" target="_blank">
+                            ORCID
+                        </a>
+                        <a class="btn btn-outline-dark" href="https://github.com/ednilsonrossi" target="_blank">
+                            <i class="bi bi-github"></i>
+                            GitHub
+                        </a>
+                        <a class="btn btn-outline-primary" href="www.linkedin.com/in/ednilsonrossi">
+                            <i class="bi bi-linkedin"></i>
+                            LinkedIn
+                        </a>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <hr>
+
+            <div class="text-center text-muted">
+
+                © 2026 Ednilson Geraldo Rossi
+
+                <br>
+
+                Desenvolvido com Bootstrap • GitHub Pages
+
+            </div>
+
+        </div>
+
+    </footer>
+
+
+
+    <script src="js/main.js"></script>
+</body>
+
 </html>

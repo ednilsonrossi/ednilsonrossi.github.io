@@ -1,1 +1,2 @@
-# ednilsonrossi.github.io
+# Site acadêmico
+Projeto inicial para GitHub Pages.

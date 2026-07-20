@@ -1,0 +1,1 @@
+const b=document.getElementById('themeToggle');if(b){b.onclick=()=>{const h=document.documentElement;const t=h.dataset.bsTheme==='dark'?'light':'dark';h.dataset.bsTheme=t;localStorage.theme=t};if(localStorage.theme)document.documentElement.dataset.bsTheme=localStorage.theme;}
